@@ -6,13 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
 import android.widget.Toast;
@@ -263,34 +268,72 @@ public class TambahFeed extends BaseActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.submit_feed){
+            boolean isFill;
+            if (!binding.tfNamaLokasi.getText().toString().equals("")){
+                isFill = true;
+            }else {
+                isFill = false;
+            }
+            if (isFill){
+                DataRelawan dataRelawan = PrefRelawan.getRelawan(this);
 
-            DataRelawan dataRelawan = PrefRelawan.getRelawan(this);
+                Log.i("Feed", binding.tfNamaLokasi.getText().toString()+" "+
+                        binding.tfLatitude.getText().toString()+" "+
+                        binding.tfLongitude.getText().toString()+" "+
+                        binding.tfDeskripsiKorban.getText().toString()+" "+
+                        binding.tfDeskripsiKebutuhan.getText().toString()+" "+
+                        binding.tfKeterangan.getText().toString()+" "+
+                        dataRelawan.getRelawan().getNama()+" "+
+                        dataRelawan.getRelawan().getKontak());
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://tanggapbencana.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            ApiInterface post = retrofit.create(ApiInterface.class);
-            Call<ResponseBody> call = post.tmbFeed(binding.tfNamaLokasi.getText().toString(),
-                    binding.tfLatitude.getText().toString(),
-                    binding.tfLongitude.getText().toString(),
-                    binding.tfDeskripsiKorban.getText().toString(),
-                    binding.tfDeskripsiKebutuhan.getText().toString(),
-                    binding.tfKeterangan.getText().toString(),
-                    dataRelawan.getRelawan().getNama(),
-                    dataRelawan.getRelawan().getKontak());
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Toast.makeText(TambahFeed.this,"Berhasil Menambahkan",Toast.LENGTH_LONG).show();
-                    finish();
-                }
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://tanggapbencana.com/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                ApiInterface post = retrofit.create(ApiInterface.class);
+                Call<ResponseBody> call = post.tmbFeed(binding.tfNamaLokasi.getText().toString(),
+                        binding.tfLatitude.getText().toString(),
+                        binding.tfLongitude.getText().toString(),
+                        binding.tfDeskripsiKorban.getText().toString(),
+                        binding.tfDeskripsiKebutuhan.getText().toString(),
+                        binding.tfKeterangan.getText().toString(),
+                        dataRelawan.getRelawan().getNama(),
+                        dataRelawan.getRelawan().getKontak());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Toast.makeText(TambahFeed.this,"Berhasil Menambahkan",Toast.LENGTH_LONG).show();
+                        finish();
+                    }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(TambahFeed.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(TambahFeed.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else {
+                final Drawable icon = ContextCompat.getDrawable(this, R.drawable.ic_error_red_500_18dp);
+                icon.setBounds(new Rect(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight()));
+                binding.tfNamaLokasi.setCompoundDrawables(null,null,icon,null);
+                binding.tfNamaLokasi.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        binding.tfNamaLokasi.setCompoundDrawables(null,null,null,null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (binding.tfNamaLokasi.getText().toString().equals("")){
+                            binding.tfNamaLokasi.setCompoundDrawables(null,null,icon,null);
+                        }
+                    }
+                });
+            }
         }
         return super.onOptionsItemSelected(item);
     }
