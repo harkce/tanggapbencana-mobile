@@ -1,5 +1,6 @@
 package com.asgar.tanggapbencana.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity {
                     dataRelawan.setRelawan(relawan);
                     PrefRelawan.setRelawan(dataRelawan,this);
                 }
+                startActivity(new Intent(this,Menu.class));
                 finish();
             }else {
 
