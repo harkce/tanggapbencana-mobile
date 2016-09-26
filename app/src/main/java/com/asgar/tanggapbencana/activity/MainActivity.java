@@ -22,6 +22,7 @@ import com.asgar.tanggapbencana.sharedPrefs.PrefRelawan;
 public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
+    private Drawable icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }else {
 
-                final Drawable icon = ContextCompat.getDrawable(this, R.drawable.ic_error_red_500_18dp);
+                icon = ContextCompat.getDrawable(this, R.drawable.ic_error_red_500_18dp);
                 icon.setBounds(new Rect(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight()));
 
                 if (binding.namaRelawan.getText().toString().equals("")){

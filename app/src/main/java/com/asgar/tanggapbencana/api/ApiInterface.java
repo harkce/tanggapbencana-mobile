@@ -22,7 +22,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("tambahfeed")
-    Call<ResponseBody> tmbFeed(
+    Call<ResponseBody> uploadData(
             @Field("nama_lokasi") String namaLokasi,
             @Field("latitude") String latitude,
             @Field("longitude") String longitude,

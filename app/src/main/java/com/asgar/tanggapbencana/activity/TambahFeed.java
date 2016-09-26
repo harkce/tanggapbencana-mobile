@@ -2,6 +2,7 @@ package com.asgar.tanggapbencana.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,6 +55,9 @@ public class TambahFeed extends BaseActivity implements
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+
+    private Drawable icon;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,6 +279,12 @@ public class TambahFeed extends BaseActivity implements
                 isFill = false;
             }
             if (isFill){
+
+                dialog = new ProgressDialog(this);
+                dialog.setCancelable(false);
+                dialog.setMessage("Mohon tunggu sebentar...");
+                dialog.show();
+
                 DataRelawan dataRelawan = PrefRelawan.getRelawan(this);
 
                 Log.i("Feed", binding.tfNamaLokasi.getText().toString()+" "+
@@ -287,11 +297,11 @@ public class TambahFeed extends BaseActivity implements
                         dataRelawan.getRelawan().getKontak());
 
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://tanggapbencana.com/")
+                        .baseUrl(ApiInterface.url)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 ApiInterface post = retrofit.create(ApiInterface.class);
-                Call<ResponseBody> call = post.tmbFeed(binding.tfNamaLokasi.getText().toString(),
+                Call<ResponseBody> call = post.uploadData(binding.tfNamaLokasi.getText().toString(),
                         binding.tfLatitude.getText().toString(),
                         binding.tfLongitude.getText().toString(),
                         binding.tfDeskripsiKorban.getText().toString(),
@@ -302,17 +312,19 @@ public class TambahFeed extends BaseActivity implements
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        dialog.dismiss();
                         Toast.makeText(TambahFeed.this,"Berhasil Menambahkan",Toast.LENGTH_LONG).show();
                         finish();
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        dialog.dismiss();
                         Toast.makeText(TambahFeed.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
                     }
                 });
             }else {
-                final Drawable icon = ContextCompat.getDrawable(this, R.drawable.ic_error_red_500_18dp);
+                icon = ContextCompat.getDrawable(this,R.drawable.ic_error_red_500_18dp);
                 icon.setBounds(new Rect(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight()));
                 binding.tfNamaLokasi.setCompoundDrawables(null,null,icon,null);
                 binding.tfNamaLokasi.addTextChangedListener(new TextWatcher() {
