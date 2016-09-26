@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nama Lokasi"
-                    android:inputType="textMultiLine"/>
+                    android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
