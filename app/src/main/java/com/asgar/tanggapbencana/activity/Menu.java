@@ -32,8 +32,8 @@ public class Menu extends BaseActivity{
 
 
     public void onClickFeed(View view){
-        if (view.getId() == R.id.btn_tmb_feed){
-            startActivity( new Intent(this,TambahFeed.class));
+        if (view.getId() == R.id.btn_tmb_feed) {
+            startActivity(new Intent(this, TambahFeed.class));
         }
     }
 
