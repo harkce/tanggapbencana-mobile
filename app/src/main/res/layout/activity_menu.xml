@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
 
         <variable
-            name="menu"
+            name="vm"
             type="com.asgar.tanggapbencana.activity.Menu"/>
     </data>
 
@@ -31,42 +31,121 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/activity_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/btn_tmb_feed"
-            android:padding="16dp"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="24dp"
-            android:text="Tambah \n Feed"
-            android:onClick="@{menu.onClickFeed}"/>
+            android:layout_height="wrap_content"
+            app:adapter="@{vm.bAdapter}"
+            app:layoutManager="@{vm.bLayoutManager}"
+            tools:listitem="@layout/row_item" />
 
-        <View
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#000"/>
+        <!--<TextView-->
+            <!--android:id="@+id/btn_tmb_feed"-->
+            <!--android:padding="16dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="24dp"-->
+            <!--android:text="Tambah \n Feed"-->
+            <!--android:onClick="@{menu.onClickFeed}"/>-->
 
-        <TextView
-            android:id="@+id/btn_tmb_update"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="24dp"
-            android:text="Tambah \n Update"
-            android:onClick="@{menu.onClickUpdate}"/>
+        <!--<View-->
+            <!--android:padding="16dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="#000"/>-->
 
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/btn_tmb_update"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="24dp"-->
+            <!--android:text="Tambah \n Update"-->
+            <!--android:onClick="@{menu.onClickUpdate}"/>-->
+
+    </RelativeLayout>
+
+        <LinearLayout
+            android:gravity="right"
+            android:layout_gravity="bottom|right"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:visibility="@{vm.isFabOpen ? View.VISIBLE : View.GONE}"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="8dp"
+                    android:text="Feed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_feed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:onClick="@{vm.onClickFeed}"
+                    app:layout_anchorGravity="bottom|right|end"
+                    tools:visibility="visible"
+                    app:srcCompat="@drawable/ic_add_24dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="@{vm.isFabOpen ? View.VISIBLE : View.GONE}"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="8dp"
+                    android:text="Update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:onClick="@{vm.onClickUpdate}"
+                    app:layout_anchorGravity="bottom|right|end"
+                    tools:visibility="visible"
+                    app:srcCompat="@drawable/ic_add_24dp" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_menu"
+                android:onClick="@{vm.onClickFabMenu}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_anchorGravity="bottom|right|end"
+                app:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_add_24dp" />
+
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
