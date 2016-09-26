@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.asgar.tanggapbencana.activity.Menu">
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="menu"
+            type="com.asgar.tanggapbencana.activity.Menu"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/activity_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/btn_tmb_feed"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:text="Tambah \n Feed"
+            android:onClick="@{menu.onClickFeed}"/>
+
+        <View
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000"/>
+
+        <TextView
+            android:id="@+id/btn_tmb_update"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:text="Tambah \n Update"
+            android:onClick="@{menu.onClickUpdate}"/>
+
+    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
