@@ -18,14 +18,24 @@ import android.view.*;
 import android.widget.Toast;
 
 import com.asgar.tanggapbencana.R;
+import com.asgar.tanggapbencana.api.ApiInterface;
 import com.asgar.tanggapbencana.base.BaseActivity;
 import com.asgar.tanggapbencana.databinding.ActivityTambahFeedBinding;
+import com.asgar.tanggapbencana.model.DataRelawan;
+import com.asgar.tanggapbencana.sharedPrefs.PrefRelawan;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import okhttp3.ResponseBody;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.Call;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TambahFeed extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -254,7 +264,33 @@ public class TambahFeed extends BaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.submit_feed){
 
-            finish();
+            DataRelawan dataRelawan = PrefRelawan.getRelawan(this);
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://tanggapbencana.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ApiInterface post = retrofit.create(ApiInterface.class);
+            Call<ResponseBody> call = post.tmbFeed(binding.tfNamaLokasi.getText().toString(),
+                    binding.tfLatitude.getText().toString(),
+                    binding.tfLongitude.getText().toString(),
+                    binding.tfDeskripsiKorban.getText().toString(),
+                    binding.tfDeskripsiKebutuhan.getText().toString(),
+                    binding.tfKeterangan.getText().toString(),
+                    dataRelawan.getRelawan().getNama(),
+                    dataRelawan.getRelawan().getKontak());
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Toast.makeText(TambahFeed.this,"Berhasil Menambahkan",Toast.LENGTH_LONG).show();
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(TambahFeed.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }
