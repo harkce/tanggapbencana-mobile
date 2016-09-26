@@ -37,13 +37,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
+            android:background="@color/grey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:adapter="@{vm.bAdapter}"
             app:layoutManager="@{vm.bLayoutManager}"
             tools:listitem="@layout/row_item" />
+
+        </android.support.v4.widget.NestedScrollView>
 
         <!--<TextView-->
             <!--android:id="@+id/btn_tmb_feed"-->

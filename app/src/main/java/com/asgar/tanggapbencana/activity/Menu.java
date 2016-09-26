@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.asgar.tanggapbencana.EndlessNestedScrollListener;
 import com.asgar.tanggapbencana.R;
 import com.asgar.tanggapbencana.adapter.ListAdapter;
 import com.asgar.tanggapbencana.api.ApiInterface;
@@ -46,6 +47,8 @@ public class Menu extends BaseActivity{
     public LinearLayoutManager bLayoutManager;
     private List<ResponseListDao.DataBean> mListDao = new ArrayList<>();
     private int page = 1;
+    private int totalItems = 0;
+    private boolean nextPage = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,27 @@ public class Menu extends BaseActivity{
         bLayoutManager = new LinearLayoutManager(this);
 
         callAPI();
+
+        binding.view.setOnScrollChangeListener(new EndlessNestedScrollListener(bLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                if (totalItems == bLayoutManager.findLastCompletelyVisibleItemPosition()+1){
+                    if (nextPage) {
+                        bAdapter.isLoadMoreAvailable = true;
+                        incPage();
+                        callAPI();
+                    }else{
+                        bAdapter.isLoadMoreAvailable=false;
+                    }
+                }else{
+                    bAdapter.isLoadMoreAvailable=false;
+                }
+            }
+        });
+    }
+
+    private void incPage() {
+        page++;
     }
 
     private void callAPI(){
@@ -77,6 +101,8 @@ public class Menu extends BaseActivity{
             @Override
             public void onResponse(Call<ResponseListDao> call, Response<ResponseListDao> response) {
                 setList(response.body().getData());
+                nextPage = response.body().getNext_page_url() != null;
+                totalItems = totalItems + response.body().getData().size();
             }
 
             @Override

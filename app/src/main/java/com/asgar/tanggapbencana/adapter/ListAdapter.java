@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.asgar.tanggapbencana.R;
+import com.asgar.tanggapbencana.databinding.RowFooterBinding;
 import com.asgar.tanggapbencana.databinding.RowItemBinding;
 import com.asgar.tanggapbencana.model.ResponseListDao;
 import com.asgar.tanggapbencana.model.RowItemVM;
@@ -31,25 +32,79 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.BindingHolder>
 
     @Override
     public ListAdapter.BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BindingHolder(RowItemBinding.inflate(LayoutInflater.from(parent.getContext())));
+        if (viewType == VIEW_TYPE_LOADING){
+            RowFooterBinding binding = DataBindingUtil.inflate(LayoutInflater.
+                    from(parent.getContext()), R.layout.row_footer, parent, false);
+            return new FooterBindingHolder(binding);
+        }else{
+            RowItemBinding binding = DataBindingUtil.inflate(LayoutInflater.
+                    from(parent.getContext()), R.layout.row_item, parent, false);
+            return new RowBindingHolder(binding);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isLoadMoreAvailable && position == mList.size()) {
+            return VIEW_TYPE_LOADING;
+        } else {
+            return VIEW_TYPE_ITEM;
+        }
     }
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.getBinding().setVm(new RowItemVM(holder.getBinding()
-                , mList.get(position)));
+        RowFooterVM vm = new RowFooterVM();
+        if (holder instanceof FooterBindingHolder) {
+            //footer
+            ((FooterBindingHolder) holder).getBinding().setVm(vm);
+            vm.isVisible.set(true);
+        } else {
+            //item
+            ((RowBindingHolder)holder).getBinding().setVm(new RowItemVM((
+                    (RowBindingHolder)holder).getBinding(), mList.get(position)));
+            vm.isVisible.set(false);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mList.size() + (isLoadMoreAvailable ? 1 : 0);
     }
 
     public static class BindingHolder extends RecyclerView.ViewHolder {
+        private ViewDataBinding binding;
+
+        public BindingHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public ViewDataBinding getBinding() {
+            return this.binding;
+        }
+    }
+
+    public static class FooterBindingHolder extends BindingHolder {
+
+        private RowFooterBinding binding;
+
+        public FooterBindingHolder(RowFooterBinding binding) {
+            super(binding);
+            this.binding = binding;
+        }
+
+        public RowFooterBinding getBinding() {
+            return this.binding;
+        }
+    }
+
+    public static class RowBindingHolder extends BindingHolder {
+
         private RowItemBinding binding;
 
-        public BindingHolder(RowItemBinding binding) {
-            super(binding.getRoot());
+        public RowBindingHolder(RowItemBinding binding) {
+            super(binding);
             this.binding = binding;
         }
 
