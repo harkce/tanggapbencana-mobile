@@ -92,8 +92,8 @@ public class ResponseListDao {
 
     public static class DataBean {
         private String nama_lokasi;
-        private Object deskripsi_korban;
-        private Object deskripsi_kebutuhan;
+        private String deskripsi_korban;
+        private String deskripsi_kebutuhan;
         private String keterangan;
         private String nama_relawan;
         private String created_at;
@@ -106,19 +106,19 @@ public class ResponseListDao {
             this.nama_lokasi = nama_lokasi;
         }
 
-        public Object getDeskripsi_korban() {
+        public String getDeskripsi_korban() {
             return deskripsi_korban;
         }
 
-        public void setDeskripsi_korban(Object deskripsi_korban) {
+        public void setDeskripsi_korban(String deskripsi_korban) {
             this.deskripsi_korban = deskripsi_korban;
         }
 
-        public Object getDeskripsi_kebutuhan() {
+        public String getDeskripsi_kebutuhan() {
             return deskripsi_kebutuhan;
         }
 
-        public void setDeskripsi_kebutuhan(Object deskripsi_kebutuhan) {
+        public void setDeskripsi_kebutuhan(String deskripsi_kebutuhan) {
             this.deskripsi_kebutuhan = deskripsi_kebutuhan;
         }
 

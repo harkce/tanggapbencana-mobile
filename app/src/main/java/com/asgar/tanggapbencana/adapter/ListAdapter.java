@@ -36,7 +36,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.BindingHolder>
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.getBinding().setVm(new RowItemVM(holder.getBinding()));
+        holder.getBinding().setVm(new RowItemVM(holder.getBinding()
+                , mList.get(position)));
     }
 
     @Override

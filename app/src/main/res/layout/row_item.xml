@@ -11,12 +11,15 @@
             type="com.asgar.tanggapbencana.model.RowItemVM"/>
     </data>
 
+    <android.support.design.widget.CoordinatorLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <android.support.v7.widget.CardView
         android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,12 +38,14 @@
 
                 <TextView
                     tools:text="Nama lokasi"
+                    android:text="@{vm.bLokasi}"
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     tools:text="Tanggal"
+                    android:text="@{vm.bTanggal}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -48,18 +53,21 @@
 
             <TextView
                 android:padding="8dp"
+                android:text="@{vm.bDesKorban}"
                 tools:text="Deskripsi Korban : "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:padding="8dp"
+                android:text="@{vm.bDesKebutuhan}"
                 tools:text="Deskripsi Kebutuhan : "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:padding="8dp"
+                android:text="@{vm.bKeterangan}"
                 tools:text="Keterangan : "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -70,6 +78,7 @@
                 android:layout_height="1dp"/>
 
             <TextView
+                android:text="@{vm.bRelawan}"
                 android:padding="8dp"
                 tools:text="Relawan : "
                 android:layout_width="wrap_content"
@@ -77,5 +86,7 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>
