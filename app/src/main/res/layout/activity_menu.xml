@@ -78,6 +78,7 @@
                     android:onClick="@{vm.onClickFeed}"
                     app:layout_anchorGravity="bottom|right|end"
                     tools:visibility="visible"
+                    app:backgroundTint="#F44336"
                     app:srcCompat="@drawable/ic_edit_24dp" />
 
             </LinearLayout>
@@ -86,7 +87,8 @@
                 android:visibility="@{vm.isFabOpen ? View.VISIBLE : View.GONE}"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:textStyle="bold"
@@ -105,6 +107,7 @@
                     android:onClick="@{vm.onClickUpdate}"
                     app:layout_anchorGravity="bottom|right|end"
                     tools:visibility="visible"
+                    app:backgroundTint="#F44336"
                     app:srcCompat="@drawable/ic_edit_24dp" />
 
             </LinearLayout>
@@ -117,7 +120,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
                 app:layout_anchorGravity="bottom|right|end"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="#D32F2F"
                 app:srcCompat="@drawable/ic_add_24dp" />
 
         </LinearLayout>
