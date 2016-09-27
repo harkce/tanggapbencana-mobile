@@ -110,9 +110,11 @@
                 android:id="@+id/btn_get_loc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:hint="Dapatkan Posisi"
-                android:onClick="@{tambahFeed.getLocation}"/>
+                android:onClick="@{tambahFeed.getLocation}"
+                android:background="#F44336"
+                android:textStyle="bold"
+                android:textColorHint="#fff"/>
 
         </LinearLayout>
 
