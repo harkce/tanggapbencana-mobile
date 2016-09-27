@@ -43,6 +43,7 @@ public class Menu extends BaseActivity{
 
     private ActivityMenuBinding binding;
     public ObservableField<Boolean> isFabOpen = new ObservableField<>(false);
+    public ObservableField<Boolean> isFail = new ObservableField<>(false);
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     public ListAdapter bAdapter;
     public LinearLayoutManager bLayoutManager;
@@ -107,6 +108,7 @@ public class Menu extends BaseActivity{
     }
 
     private void callAPI(){
+        isFail.set(false);
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(ApiInterface.url)
@@ -121,11 +123,12 @@ public class Menu extends BaseActivity{
                 totalItems = totalItems + response.body().getData().size();
                 nextPage = response.body().getNext_page_url() != null;
                 setList(response.body().getData());
+                isFail.set(false);
             }
 
             @Override
             public void onFailure(Call<ResponseListDao> call, Throwable t) {
-
+                isFail.set(true);
             }
         });
     }
@@ -138,6 +141,10 @@ public class Menu extends BaseActivity{
 
     public void onClickFeed(View view){
             startActivity(new Intent(this, TambahFeed.class));
+    }
+
+    public void onClickReload(View view){
+        callAPI();
     }
 
     public void onClickUpdate(View view){
