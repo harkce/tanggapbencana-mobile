@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.asgar.tanggapbencana.EndlessNestedScrollListener;
+import com.asgar.tanggapbencana.EndlessRecyclerViewScrollListener;
 import com.asgar.tanggapbencana.R;
 import com.asgar.tanggapbencana.adapter.ListAdapter;
 import com.asgar.tanggapbencana.api.ApiInterface;
@@ -49,6 +50,7 @@ public class Menu extends BaseActivity{
     private int page = 1;
     private int totalItems = 0;
     private boolean nextPage = true;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +70,30 @@ public class Menu extends BaseActivity{
 
         callAPI();
 
-        binding.view.setOnScrollChangeListener(new EndlessNestedScrollListener(bLayoutManager) {
+//        binding.view.setOnScrollChangeListener(new EndlessNestedScrollListener(bLayoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                if (totalItems == bLayoutManager.findLastCompletelyVisibleItemPosition()+1){
+//                    if (nextPage) {
+//                        bAdapter.isLoadMoreAvailable = true;
+//                        incPage();
+//                        callAPI();
+//                    }else{
+//                        bAdapter.isLoadMoreAvailable=false;
+//                    }
+//                }else{
+//                    bAdapter.isLoadMoreAvailable=false;
+//                }
+//            }
+//        });
+
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(bLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (totalItems == bLayoutManager.findLastCompletelyVisibleItemPosition()+1){
-                    if (nextPage) {
-                        bAdapter.isLoadMoreAvailable = true;
-                        incPage();
-                        callAPI();
-                    }else{
-                        bAdapter.isLoadMoreAvailable=false;
-                    }
+                if (nextPage) {
+                    bAdapter.isLoadMoreAvailable = true;
+                    incPage();
+                    callAPI();
                 }else{
                     bAdapter.isLoadMoreAvailable=false;
                 }
@@ -88,21 +103,24 @@ public class Menu extends BaseActivity{
 
     private void incPage() {
         page++;
+        Log.i("infoirfan", "incPage: page"+page);
     }
 
     private void callAPI(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiInterface.url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        if (retrofit==null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(ApiInterface.url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
         ApiInterface post = retrofit.create(ApiInterface.class);
         Call<ResponseListDao> call = post.getList(page);
         call.enqueue(new Callback<ResponseListDao>() {
             @Override
             public void onResponse(Call<ResponseListDao> call, Response<ResponseListDao> response) {
-                setList(response.body().getData());
-                nextPage = response.body().getNext_page_url() != null;
                 totalItems = totalItems + response.body().getData().size();
+                nextPage = response.body().getNext_page_url() != null;
+                setList(response.body().getData());
             }
 
             @Override

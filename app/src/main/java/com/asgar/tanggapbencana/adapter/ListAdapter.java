@@ -54,22 +54,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.BindingHolder>
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        RowFooterVM vm = new RowFooterVM();
         if (holder instanceof FooterBindingHolder) {
             //footer
-            ((FooterBindingHolder) holder).getBinding().setVm(vm);
-            vm.isVisible.set(true);
+            ((FooterBindingHolder) holder).getBinding().setVm(new RowFooterVM());
         } else {
             //item
             ((RowBindingHolder)holder).getBinding().setVm(new RowItemVM((
                     (RowBindingHolder)holder).getBinding(), mList.get(position)));
-            vm.isVisible.set(false);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size() + (isLoadMoreAvailable ? 1 : 0);
+        return mList.size()
+                + (isLoadMoreAvailable ? 1 : 0);
     }
 
     public static class BindingHolder extends RecyclerView.ViewHolder {
