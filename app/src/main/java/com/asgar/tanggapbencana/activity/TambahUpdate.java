@@ -98,7 +98,7 @@ public class TambahUpdate extends BaseActivity {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         dialog.dismiss();
-                        Toast.makeText(TambahUpdate.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
+                        Toast.makeText(TambahUpdate.this,"Gagal Menambahkan, cek koneksi internet",Toast.LENGTH_LONG).show();
                     }
                 });
             }else{

@@ -320,7 +320,7 @@ public class TambahFeed extends BaseActivity implements
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         dialog.dismiss();
-                        Toast.makeText(TambahFeed.this,"Gagal Menambahkan",Toast.LENGTH_LONG).show();
+                        Toast.makeText(TambahFeed.this,"Gagal Menambahkan, cek koneksi internet",Toast.LENGTH_LONG).show();
                     }
                 });
             }else {

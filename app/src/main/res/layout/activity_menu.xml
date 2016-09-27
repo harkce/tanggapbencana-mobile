@@ -41,9 +41,12 @@
             android:onClick="@{vm.onClickReload}"
             android:visibility="@{vm.isFail ? View.VISIBLE : View.GONE}"
             android:layout_centerInParent="true"
-            android:text="Coba Lagi"
+            android:hint="Coba Lagi"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#F44336"
+            android:textStyle="bold"
+            android:textColorHint="#fff"/>
 
         <android.support.v7.widget.RecyclerView
             android:visibility="@{vm.isFail ? View.GONE : View.VISIBLE}"
