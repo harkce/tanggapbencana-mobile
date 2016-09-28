@@ -76,7 +76,7 @@
                 <TextView
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:text="Feed"
+                    android:text="Lokasi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -91,7 +91,7 @@
                     app:layout_anchorGravity="bottom|right|end"
                     tools:visibility="visible"
                     app:backgroundTint="#F44336"
-                    app:srcCompat="@drawable/ic_edit_24dp" />
+                    app:srcCompat="@drawable/ic_location_on_white_24dp" />
 
             </LinearLayout>
 
@@ -120,7 +120,7 @@
                     app:layout_anchorGravity="bottom|right|end"
                     tools:visibility="visible"
                     app:backgroundTint="#F44336"
-                    app:srcCompat="@drawable/ic_edit_24dp" />
+                    app:srcCompat="@drawable/ic_update_white_24dp" />
 
             </LinearLayout>
 
