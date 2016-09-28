@@ -65,7 +65,7 @@ public class TambahFeed extends BaseActivity implements
         binding = DataBindingUtil.setContentView(this,R.layout.activity_tambah_feed);
         binding.setTambahFeed(this);
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Tambah Feed");
+        getSupportActionBar().setTitle("Tambah Lokasi");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (checkPlayServices()) {
             buildGoogleApiClient();
