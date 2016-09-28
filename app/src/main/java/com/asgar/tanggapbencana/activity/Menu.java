@@ -59,7 +59,7 @@ public class Menu extends BaseActivity{
         binding = DataBindingUtil.setContentView(this,R.layout.activity_menu);
         binding.setVm(this);
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Menu");
+        getSupportActionBar().setTitle("Informasi Terbaru");
 
         fab_open = AnimationUtils.loadAnimation(this, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(this,R.anim.fab_close);
